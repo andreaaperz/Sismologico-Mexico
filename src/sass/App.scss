@@ -1,0 +1,6 @@
+.app-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 16.25rem auto;
+  min-height: calc(100vh - 5rem);
+}

@@ -1,0 +1,28 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 5.9rem;
+  margin: 0 auto 0 auto;
+  position: relative;
+  z-index: 10;
+  background-color: #fff;
+  > svg {
+    position: relative;
+    z-index: 119999;
+    width: 16.25rem;
+    height:  6.9rem;
+  }
+
+  .logo {
+    cursor: pointer;
+    background-image: url(../assets/LogoName.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    max-width: auto;
+    max-height: 6.9rem;
+    opacity: 1;
+  }
+}

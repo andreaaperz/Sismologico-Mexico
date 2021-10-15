@@ -1,0 +1,26 @@
+aside.nav-panel {
+  background-color: $primaryColor;
+
+  .nav-list {
+    .nav-option {
+      text-decoration: none;
+      color: $bgColor;
+      user-select: none;
+      height: 3rem;
+      padding: 0 1.7rem;
+      font-weight: bold;
+      font-size: 1.125rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      &.active {
+        color: $secondaryColor;
+        background-color: scale-color($primaryColor, $whiteness: 25%);
+      }
+
+      &:hover {
+        background-color: scale-color($primaryColor, $whiteness: 25%);
+      }
+    }
+  }
+}
