@@ -1,8 +1,8 @@
-aside.nav-panel {
+aside.nav-panel-sis {
   background-color: $primaryColor;
 
-  .nav-list {
-    .nav-option {
+  .nav-list-sis {
+    .nav-option-sis {
       text-decoration: none;
       color: $bgColor;
       user-select: none;
@@ -13,7 +13,7 @@ aside.nav-panel {
       display: flex;
       align-items: center;
       cursor: pointer;
-      &.active {
+      &.active-sis {
         color: $secondaryColor;
         background-color: scale-color($primaryColor, $whiteness: 25%);
       }
