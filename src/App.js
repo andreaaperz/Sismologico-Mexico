@@ -5,14 +5,13 @@ import {
   Switch,
 } from "react-router-dom";
 import TopNav from "./components/TopNav";
-import Table from "./pages/InformationTable";
+import Table from "./pages/Table.page";
 import NavPanel, { NavOption } from "./components/NavPanel";
 import Charts from "./components/Charts";
 import Mapa from "./components/Map";
 
 function App() {
   return (
-    
     <div>
       <Router>
         <TopNav />
@@ -28,7 +27,7 @@ function App() {
             <Route path="/mapa"><Mapa/></Route>
             <Route path="/charts"><Charts/></Route>
             <Route exact path="/">
-              {/* <Redirect to="/home" /> */}
+               <Redirect to="/tabla" />
             </Route>
           </Switch>
         </div>

@@ -5,7 +5,7 @@ import FormControl from "react-bootstrap/FormControl";
 
 export default function InformationTable() {
   return (
-    <div className='table'>
+    <div className="table">
       <InputGroup className="mb-3">
         <InputGroup.Text id="inputGroup-sizing-default">
           <img
@@ -26,7 +26,7 @@ export default function InformationTable() {
             <th>#</th>
             <th>Lugar</th>
             <th>Magnitud</th>
-            <th>Profundidad(km)</th>
+            <th>Profundidad (Km)</th>
           </tr>
         </thead>
         <tbody>
@@ -44,7 +44,7 @@ export default function InformationTable() {
           </tr>
           <tr>
             <td>3</td>
-            <td>Cdmx</td>
+            <td>CDMX</td>
             <td>4.2</td>
             <td>8</td>
           </tr>
@@ -55,7 +55,7 @@ export default function InformationTable() {
             <td>7</td>
           </tr>
         </tbody>
-      </Table> 
+      </Table>
     </div>
   );
 }
