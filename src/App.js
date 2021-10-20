@@ -8,6 +8,7 @@ import TopNav from "./components/TopNav";
 import Table from "./pages/InformationTable";
 import NavPanel, { NavOption } from "./components/NavPanel";
 import Charts from "./components/Charts";
+import Mapa from "./components/Map";
 
 function App() {
   return (
@@ -18,13 +19,13 @@ function App() {
 
         <div className="app-grid">
           <NavPanel>
-            <NavOption to="/home">Tabla</NavOption>
-            <NavOption to="/utteranceMissed">Mapa</NavOption>
+            <NavOption to="/tabla">Tabla</NavOption>
+            <NavOption to="/mapa">Mapa</NavOption>
             <NavOption to="/charts">Estadísticas</NavOption>
           </NavPanel>
           <Switch>
-            <Route path="/home"><Table/></Route>
-            <Route path="/utteranceMissed"></Route>
+            <Route path="/tabla"><Table/></Route>
+            <Route path="/mapa"><Mapa/></Route>
             <Route path="/charts"><Charts/></Route>
             <Route exact path="/">
               {/* <Redirect to="/home" /> */}
