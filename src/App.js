@@ -7,6 +7,7 @@ import {
 import TopNav from "./components/TopNav";
 import Table from "./pages/InformationTable";
 import NavPanel, { NavOption } from "./components/NavPanel";
+import Charts from "./components/Charts";
 
 function App() {
   return (
@@ -19,12 +20,12 @@ function App() {
           <NavPanel>
             <NavOption to="/home">Tabla</NavOption>
             <NavOption to="/utteranceMissed">Mapa</NavOption>
-            <NavOption to="/utteranceDetected">Estadísticas</NavOption>
+            <NavOption to="/charts">Estadísticas</NavOption>
           </NavPanel>
           <Switch>
             <Route path="/home"><Table/></Route>
             <Route path="/utteranceMissed"></Route>
-            <Route path="/utteranceDetected"></Route>
+            <Route path="/charts"><Charts/></Route>
             <Route exact path="/">
               {/* <Redirect to="/home" /> */}
             </Route>
