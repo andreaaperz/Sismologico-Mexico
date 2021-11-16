@@ -1,7 +1,146 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import sismos from '../service/sismos'
+
 const { Chart } = require("react-google-charts");
 
-export function Charts({}) {
+function Charts() {
+  var sismosInfo = []
+  var grandes = []
+  var recientes = []
+  var profundidades = []
+  var estadosAfectados = []
+  var aux = []
+
+  const [gran, setGran] = useState([])
+  const [recient, setRecientes] = useState([])
+  const [afect, setAfect] = useState([])
+  const [prof, setProf] = useState([])
+
+
+  useEffect(() => {
+    // Actualiza el título del documento usando la API del navegador
+    sismos.map((e) => {
+      //console.log(e.title.split(','))
+      let arr = e.title.split(',')
+      sismosInfo.push({
+        "mag": Number(arr[0]),
+        "ubicacion": arr[1],
+        "estado": arr[2],
+        "ciudad": arr[1],
+        "profundidad": Number(e.description.__cdata.split('<br/>')[2].slice(12, e.description.__cdata.split('<br/>')[2].indexOf('km'))),
+        "lat": Number(e.lat),
+        "lng": Number(e.long)
+      })
+    })
+
+    //console.log(sismosInfo)
+    //console.log(sismosInfo)
+    Recientes()
+    Grandes()
+    EstadosAfectados()
+    Profundidades()
+  }, []);
+
+  /**
+   * Obtener los temblores mas recientes a la fecha actual
+   */
+  function Recientes() {
+    recientes.push(["Estado", "Magnitud"])
+    sismosInfo.map((e) => {
+      recientes.push([e.estado, e.mag])
+    })
+    //console.log(recientes)
+    setRecientes(recientes)
+  }
+
+  /**
+   * Obtener los temblores con la magnitud mas grande
+   */
+  function Grandes() {
+    aux = []
+    grandes = sismosInfo
+    grandes.sort(function (a, b) {
+      if (a.mag < b.mag) {
+        return 1;
+      }
+      if (a.mag > b.mag) {
+        return -1;
+      }
+      return 0;
+    })
+    for (let i = 0; i < 5; i++) {
+      aux = [...aux, grandes[i]]
+    }
+    grandes = []
+    grandes.push(["Estado", "Magnitud"])
+    aux.map((e) => {
+      grandes.push([e.estado, e.mag])
+    })
+    aux = []
+    setGran(grandes)
+    //console.log(gran, recient)
+  }
+
+  /**
+   * Obtener la frecuencia de sismos por estado
+   */
+  function EstadosAfectados() {
+    estadosAfectados = sismosInfo
+    estadosAfectados.sort(function (a, b) {
+      if (a.estado > b.estado) {
+        return 1;
+      }
+      if (a.estado < b.estado) {
+        return -1;
+      }
+      return 0;
+    })
+
+    estadosAfectados = foo(estadosAfectados)
+    console.log(estadosAfectados[0], estadosAfectados[1])
+    aux = []
+    aux.push(['Estado', 'Frecuencia'])
+    for (let i = 0; i < estadosAfectados[0].length; i++) {
+      console.log(i)
+      aux.push([estadosAfectados[1][i], estadosAfectados[0][i]])
+    }
+
+    console.log(aux)
+
+    setAfect(aux);
+  }
+
+
+  /**
+   * Obtener las profundidades de los sismos
+   */
+  function Profundidades() {
+    profundidades.push(["CIUDAD", "LAT", "LONG", "ESTADO", "MAGNITUD"])
+    sismosInfo.map((e) => {
+      console.log(e.ciudad.split('de')[1])
+      profundidades.push([e.ciudad.split('de')[1], e.lat, e.lng, e.estado, e.mag])
+    })
+    setProf(profundidades);
+  }
+
+  function foo(arr) {
+    var a = [], b = [], c = [], prev = {};
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].estado !== prev.estado) {
+        a.push(arr[i]);
+        b.push(1);
+        c.push(arr[i].estado)
+      } else {
+        b[b.length - 1]++;
+      }
+      prev = arr[i];
+    }
+
+    console.log([a, b])
+    return [b, c];
+  }
+
+
   return (
     <div className="chart-grid">
       <Chart
@@ -9,23 +148,18 @@ export function Charts({}) {
         height={300}
         chartType="ColumnChart"
         loader={<div>Loading Chart</div>}
-        data={[
-          ["City", "2010 Population", "2000 Population"],
-          ["New York City, NY", 8175000, 8008000],
-          ["Los Angeles, CA", 3792000, 3694000],
-          ["Chicago, IL", 2695000, 2896000],
-          ["Houston, TX", 2099000, 1953000],
-          ["Philadelphia, PA", 1526000, 1517000],
-        ]}
+        data={
+          gran
+        }
         options={{
-          title: "Population of Largest U.S. Cities",
+          title: "Estados con las magnitudes mas altas",
           chartArea: { width: "65%" },
           hAxis: {
-            title: "Total Population",
+            title: "Estado",
             minValue: 0,
           },
           vAxis: {
-            title: "City",
+            title: "Magnitud",
           },
         }}
         legendToggle
@@ -35,17 +169,11 @@ export function Charts({}) {
         height={"300px"}
         chartType="AreaChart"
         loader={<div>Loading Chart</div>}
-        data={[
-          ["Year", "Sales", "Expenses"],
-          ["2013", 1000, 400],
-          ["2014", 1170, 460],
-          ["2015", 660, 1120],
-          ["2016", 1030, 540],
-        ]}
+        data={recient}
         options={{
-          title: "Company Performance",
-          hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
-          vAxis: { minValue: 0 },
+          title: "Sismos recientes",
+          hAxis: { title: "Estado", titleTextStyle: { color: "#333" } },
+          vAxis: { title: "Magnitud" },
           chartArea: { width: "60%", height: "70%" },
         }}
       />
@@ -54,60 +182,36 @@ export function Charts({}) {
         height={"300px"}
         chartType="BubbleChart"
         loader={<div>Loading Chart</div>}
-        data={[
-          ["ID", "Life Expectancy", "Fertility Rate", "Region", "Population"],
-          ["CAN", 80.66, 1.67, "North America", 33739900],
-          ["DEU", 79.84, 1.36, "Europe", 81902307],
-          ["DNK", 78.6, 1.84, "Europe", 5523095],
-          ["EGY", 72.73, 2.78, "Middle East", 79716203],
-          ["GBR", 80.05, 2, "Europe", 61801570],
-          ["IRN", 72.49, 1.7, "Middle East", 73137148],
-          ["IRQ", 68.09, 4.77, "Middle East", 31090763],
-          ["ISR", 81.55, 2.96, "Middle East", 7485600],
-          ["RUS", 68.6, 1.54, "Europe", 141850000],
-          ["USA", 78.09, 2.05, "North America", 307007000],
-        ]}
+        data={
+          prof
+        }
         options={{
           title:
-            "Correlation between life expectancy, fertility rate " +
-            "and population of some world countries (2010)",
-          hAxis: { title: "Life Expectancy" },
-          vAxis: { title: "Fertility Rate" },
+            "Ciudades y regiones: profundidades de sismos",
+          hAxis: { title: "Latitud" },
+          vAxis: { title: "Longitud" },
           bubble: { textStyle: { fontSize: 11 } },
         }}
       />
       <Chart
         width={"100%"}
-        height={300}
-        chartType="LineChart"
+        height={"300px"}
+        chartType="AreaChart"
         loader={<div>Loading Chart</div>}
-        data={[
-          [
-            { type: "number", label: "x" },
-            { type: "number", label: "values" },
-            { id: "i0", type: "number", role: "interval" },
-            { id: "i1", type: "number", role: "interval" },
-            { id: "i2", type: "number", role: "interval" },
-            { id: "i2", type: "number", role: "interval" },
-            { id: "i2", type: "number", role: "interval" },
-            { id: "i2", type: "number", role: "interval" },
-          ],
-          [1, 100, 90, 110, 85, 96, 104, 120],
-          [2, 120, 95, 130, 90, 113, 124, 140],
-          [3, 130, 105, 140, 100, 117, 133, 139],
-          [4, 90, 85, 95, 85, 88, 92, 95],
-          [5, 70, 74, 63, 67, 69, 70, 72],
-          [6, 30, 39, 22, 21, 28, 34, 40],
-          [7, 80, 77, 83, 70, 77, 85, 90],
-          [8, 100, 90, 110, 85, 95, 102, 110],
-        ]}
+        data={afect}
         options={{
-          intervals: { style: "sticks" },
-          legend: "none",
+          title: "Estados más afectados por sismos",
+          hAxis: { title: "Estado", titleTextStyle: { color: "#333" } },
+          vAxis: { title: "Frecuencia" },
+          chartArea: { width: "60%", height: "70%" },
         }}
       />
     </div>
-  );
+  )
+
 }
+
+
+
 
 export default Charts;
