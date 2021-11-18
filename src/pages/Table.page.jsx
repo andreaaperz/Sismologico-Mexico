@@ -32,7 +32,7 @@ export default function InformationTable() {
         <tbody>
           <tr>
             <td>1</td>
-            <td>Acapulco</td>
+            <td>Guga</td>
             <td>7.1</td>
             <td>2.0</td>
           </tr>
