@@ -2,6 +2,8 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
+import Data from '../assets/csvjson.json';
+
 
 export default function InformationTable() {
   return (
@@ -23,37 +25,23 @@ export default function InformationTable() {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>#</th>
             <th>Lugar</th>
             <th>Magnitud</th>
-            <th>Profundidad (Km)</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Guga</td>
-            <td>7.1</td>
-            <td>2.0</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>San Felipe</td>
-            <td>4.0</td>
-            <td>11</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>CDMX</td>
-            <td>4.2</td>
-            <td>8</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Puebla</td>
-            <td>4.8</td>
-            <td>7</td>
-          </tr>
+        {Data.map((user, index) => {
+              return (
+                <tr key={user["Referencia de localizacion"]}>
+                  <td>{user["Referencia de localizacion"]}</td>
+                  <td>{user.Magnitud }</td>
+                  <td>{user.Latitud}</td>
+                  <td>{user.Longitud}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </Table>
     </div>
