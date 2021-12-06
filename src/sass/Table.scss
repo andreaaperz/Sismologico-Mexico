@@ -1,9 +1,12 @@
 .table {
   padding: 20px 80px; 
+  overflow: scroll;
+  height: 650px;
   .input {
     width: 80%;
   }
   .lupa {
     width: 30px;
   }
+ 
 }

@@ -7,7 +7,7 @@ import Data from '../assets/csvjson.json';
 
 export default function InformationTable() {
   return (
-    <div className="table">
+    <div className="table" >
       <InputGroup className="mb-3">
         <InputGroup.Text id="inputGroup-sizing-default">
           <img
@@ -22,16 +22,16 @@ export default function InformationTable() {
           aria-describedby="inputGroup-sizing-default"
         />
       </InputGroup>
-      <Table striped bordered hover>
+      <Table striped bordered responsive="sm">
         <thead>
-          <tr>
+          <tr >
             <th>Lugar</th>
             <th>Magnitud</th>
             <th>Latitud</th>
             <th>Longitud</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody >
         {Data.map((user, index) => {
               return (
                 <tr key={user["Referencia de localizacion"]}>
